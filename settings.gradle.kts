@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "deterministic-p256-kt"
+
 include(":dP256")

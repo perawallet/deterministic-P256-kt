@@ -9,7 +9,7 @@ kotlin = "2.1.0"
 kover = "0.9.3"
 bcprov = "1.70"
 bip39 = "1.0.9"
-nexus = "2.0.0"
+nmcp = "1.2.0"
 
 [libraries]
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
@@ -23,4 +23,4 @@ jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 maven-publish = { id = "maven-publish" }
 signing = { id = "signing" }
-nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus" }
+nmcp = { id = "com.gradleup.nmcp", version.ref = "nmcp" }
