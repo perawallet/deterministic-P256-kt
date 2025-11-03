@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package foundation.algorand.deterministicP256
+package app.perawallet.deterministicP256
 
 import cash.z.ecc.android.bip39.Mnemonics.ChecksumException
 import cash.z.ecc.android.bip39.Mnemonics.InvalidWordException
@@ -29,12 +29,14 @@ import kotlin.test.assertTrue
 import org.bouncycastle.crypto.signers.StandardDSAEncoding
 import org.bouncycastle.jce.ECNamedCurveTable
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.TestInstance
 
 class DeterministicP256Test {
 
+        @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        internal class keypairGenerationTest {
+        inner class keypairGenerationTest {
                 private lateinit var D: DeterministicP256
 
                 @BeforeAll
@@ -516,8 +518,9 @@ class DeterministicP256Test {
                 }
         }
 
+        @Nested
         @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-        internal class fixedSecureRandomTest {
+        inner class fixedSecureRandomTest {
 
                 @Test
                 fun testNextBytes() {

@@ -1,47 +1,99 @@
 plugins {
-    kotlin("jvm")
-    id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    alias(libs.plugins.jvm)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
-group = "foundation.algorand"
-version = "1.0-SNAPSHOT"
+group = "app.perawallet"
+version = libs.versions.library.version.get()
 
 dependencies {
-    // BIP 39
-    implementation("cash.z.ecc.android:kotlin-bip39:1.0.8")
+    implementation(libs.bip39)
+    implementation(libs.bcprov)
+    api(libs.commons.math3)
+    implementation(libs.guava)
 
-    // Bouncy Castle
-    implementation("org.bouncycastle:bcprov-jdk15on:1.70")
-
-    // Use the Kotlin JUnit 5 integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-
-    // Use the JUnit 5 integration.
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.1")
-
+    testImplementation(kotlin("test"))
+    testImplementation(libs.junit.jupiter.engine)
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api("org.apache.commons:commons-math3:3.6.1")
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation("com.google.guava:guava:31.0.1-jre")
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
     }
 }
 
 tasks.withType<JavaCompile> {
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
+    sourceCompatibility = JavaVersion.VERSION_21.toString()
+    targetCompatibility = JavaVersion.VERSION_21.toString()
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
     testLogging {
         showStandardStreams = true
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("release") {
+            afterEvaluate {
+                from(components["java"])
+            }
+
+            groupId = project.group.toString()
+            artifactId = "deterministic-p256-kt"
+            version = project.version.toString()
+
+            pom {
+                name.set("DeterministicP256KT")
+                description.set("Kotlin implementation of deterministic P-256 key derivation for Algorand.")
+                url.set("https://github.com/perawallet/deterministic-P256-kt")
+
+                licenses {
+                    license {
+                        name.set("Apache License 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
+                    }
+                }
+
+                developers {
+                    developer {
+                        id.set("perawallet")
+                        name.set("Pera Wallet")
+                    }
+                }
+
+                scm {
+                    connection.set("scm:git://github.com/perawallet/deterministic-P256-kt")
+                    developerConnection.set("scm:git:ssh://github.com/perawallet/deterministic-P256-kt.git")
+                    url.set("https://github.com/perawallet/deterministic-P256-kt")
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = "sonatypeCentral"
+            url = uri("https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/")
+            credentials {
+                username = System.getenv("CENTRAL_PORTAL_USERNAME")
+                password = System.getenv("CENTRAL_PORTAL_PASSWORD")
+            }
+        }
+    }
+}
+
+signing {
+    val key = System.getenv("GPG_PRIVATE_KEY")
+    val password = System.getenv("GPG_PRIVATE_KEY_PASSWORD")
+
+    if (!key.isNullOrBlank() && !password.isNullOrBlank()) {
+        useInMemoryPgpKeys(key, password)
+        sign(publishing.publications)
     }
 }

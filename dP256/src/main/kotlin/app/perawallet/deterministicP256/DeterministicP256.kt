@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package foundation.algorand.deterministicP256
+package app.perawallet.deterministicP256
 
 import cash.z.ecc.android.bip39.Mnemonics.MnemonicCode
 import java.nio.ByteBuffer
@@ -41,7 +41,7 @@ import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec
 import org.bouncycastle.jce.spec.ECNamedCurveSpec
 import org.bouncycastle.math.ec.custom.sec.SecP256R1Curve
 
-val ECDSA_POINT_SIZE = 64
+const val ECDSA_POINT_SIZE = 64
 
 /**
  * DeterministicP256 - a class that generates deterministic P-256 keypairs from a BIP39 phrase and a
