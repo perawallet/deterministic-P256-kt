@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   publish:
+    name: Publish to Central Portal
     runs-on: ubuntu-latest
 
     steps:
@@ -45,4 +46,6 @@ jobs:
         env:
           CENTRAL_PORTAL_USERNAME: ${{ secrets.CENTRAL_PORTAL_USERNAME }}
           CENTRAL_PORTAL_PASSWORD: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
-        run: ./gradlew --no-daemon clean publish --stacktrace
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: ./gradlew --no-daemon clean nmcpPublishAllPublicationsToCentralPortal --stacktrace
