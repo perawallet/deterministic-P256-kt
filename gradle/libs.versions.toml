@@ -1,13 +1,13 @@
 # https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
 
 [versions]
-library-version = "1.0.1"
+library-version = "1.0.2"
 commons-math3 = "3.6.1"
 guava = "33.3.1-jre"
 junit-jupiter-engine = "5.11.3"
 kotlin = "2.1.0"
 kover = "0.9.3"
-bcprov = "1.70"
+bcprov = "1.82"
 bip39 = "1.0.9"
 nmcp = "1.2.0"
 
@@ -15,7 +15,7 @@ nmcp = "1.2.0"
 commons-math3 = { module = "org.apache.commons:commons-math3", version.ref = "commons-math3" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter-engine" }
-bcprov = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bcprov" }
+bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bcprov" }
 bip39 = { module = "cash.z.ecc.android:kotlin-bip39", version.ref = "bip39" }
 
 [plugins]
